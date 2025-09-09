@@ -1,6 +1,7 @@
 ---
 layout: post
 title: I've set up a page to write about stuff
+tags: foo bar
 ---
 
 hey there!
