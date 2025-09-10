@@ -157,6 +157,8 @@ so, how does this work?
 to figure that out is left as an exercise to the reader.
 hope you can figure out the password ;)
 
+if you don't like random passwords sticking around, check out [part 2](2025-08-31-patching-the-t70s-bios.md) where i patch the bios to remove the password check entirely.
+
 ## Exploring the Setup Utility
 
 now we can access the bios setup, so what's next?
