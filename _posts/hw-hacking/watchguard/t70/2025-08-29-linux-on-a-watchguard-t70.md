@@ -33,8 +33,8 @@ full specs:
 - Insyde H20 BIOS, password protected, only boots from internal SSD in legacy mode
 
 | ![pcb top](/assets/images/hw-hacking/watchguard/t70/pcb_top.jpg) | ![pcb bottom](/assets/images/hw-hacking/watchguard/t70/pcb_bottom.jpg) |
-| ----------------------------- | ----------------------------------- |
-| pcb top                       | pcb bottom                          |
+| ---------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| pcb top                                                          | pcb bottom                                                             |
 
 ## First Steps: Booting Alpine Linux from USB
 
@@ -66,8 +66,8 @@ they even went out of their way to implement their own password protection, inst
 thus, clearing the CMOS doesn't reset the password, and the normal backdoor passwords for Insyde H20 don't work either.
 
 | ![the dreaded password prompt](/assets/images/hw-hacking/watchguard/t70/password_prompt.png) |
-| --------------------------------------------------------- |
-| the dreaded password prompt                               |
+| -------------------------------------------------------------------------------------------- |
+| the dreaded password prompt                                                                  |
 
 so, how do we get around this?
 
@@ -94,8 +94,8 @@ yeah, that was a bad idea.
 since each attempt takes ~0.5 seconds, i'd be sitting here for a bazillion years (estimate) until it finds the password.
 
 | ![Ain't nobody got time for that](/assets/images/common/reactions/aint_nobody_got_time_for_that.gif) |
-| --------------------------------------------------------------------------------------------- |
-| Ain't nobody got time for that                                                                |
+| ---------------------------------------------------------------------------------------------------- |
+| Ain't nobody got time for that                                                                       |
 
 so, no way around it, let's do things properly now.
 
@@ -114,15 +114,15 @@ after initial analysis by ghidra, searching for the "Input Password" string give
 that cross reference brings us right to the function that prompts for - and checks - the password.
 
 | ![cross reference in ghidra](/assets/images/hw-hacking/watchguard/t70/ghidra_password_string_xref.png) |
-| ------------------------------------------------------------------- |
-| cross reference for "Input Password" in ghidra                      |
+| ------------------------------------------------------------------------------------------------------ |
+| cross reference for "Input Password" in ghidra                                                         |
 
 this function truely is a sight to behold.
 take a look for yourself:
 
 | ![the password check function](/assets/images/hw-hacking/watchguard/t70/password_function.png) | ![the developer who reviewed it](/assets/images/common/reactions/lgtm.gif) |
-| ----------------------------------------------------------- | ------------------------------------------------------------------- |
-| the password check function                                 | the developer who reviewed it                                       |
+| ---------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| the password check function                                                                    | the developer who reviewed it                                              |
 
 as you can see, it's highly secure... well, almost.
 to be fair, it's not like this is highly critical to the security of the device, since misusing it requires physical access anyway.
@@ -156,6 +156,29 @@ void password_check(void)
 so, how does this work?
 to figure that out is left as an exercise to the reader.
 hope you can figure out the password ;)
+
+## Exploring the Setup Utility
+
+now we can access the bios setup, so what's next?
+
+| ![i didn't think i'd get this far](/assets/images/common/reactions/i-dont-know.png) |
+| ----------------------------------------------------------------------------------- |
+| i didn't think i'd get this far                                                     |
+
+let's take a quick look around to see what options are available.
+turns out, quite a lot of options are available - this is a fairly unlocked InsydeH20 bios.
+it seems like noone at WatchGuard expected anyone to get this far, so they didn't bother limiting the options.
+
+| ![the bios setup main screen](/assets/images/hw-hacking/watchguard/t70/bios_main_screen.png) | ![what the hell is a PDM/Dfx?](/assets/images/hw-hacking/watchguard/t70/bios_pdm-dfx.png) |
+| -------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| the bios setup main screen                                                                   | what the hell is a PDM/Dfx?                                                               |
+
+also fun: the two OS choices are "Windows" and "Android".
+not quite what i'd expect on a firewall appliance (imagine the horror of a _Windows_ firewall).
+
+| ![ah yes, the two osses you'd expect on a firewall](/assets/images/hw-hacking/watchguard/t70/bios_os_selection.png) | ![my reaction to the thought of a windows-based firewall](/assets/images/common/reactions/long-neck-reaction.jpg) |
+| ------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| ah yes, the two OSses you'd expect on a firewall                                                                    | my reaction to the thought of a windows-based firewall                                                            |
 
 ## Side Note: WatchGuard T50
 
