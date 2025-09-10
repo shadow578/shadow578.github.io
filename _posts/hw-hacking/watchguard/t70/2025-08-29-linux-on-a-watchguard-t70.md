@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Running Linux on a WatchGuard T70
-tags: hardware-hacking linux
+tags: hardware-hacking ghidra linux
 ---
 
 so, i've recently got my hands on an old WatchGuard T70 firewall, and i thought it would be a fun project to see if i could get Linux running on it.
