@@ -32,7 +32,7 @@ full specs:
 - 2x USB 2.0 ports
 - Insyde H20 BIOS, password protected, only boots from internal SSD in legacy mode
 
-| ![pcb top](./img/pcb_top.jpg) | ![pcb bottom](./img/pcb_bottom.jpg) |
+| ![pcb top](/assets/images/hw-hacking/watchguard/t70/pcb_top.jpg) | ![pcb bottom](/assets/images/hw-hacking/watchguard/t70/pcb_bottom.jpg) |
 | ----------------------------- | ----------------------------------- |
 | pcb top                       | pcb bottom                          |
 
@@ -65,7 +65,7 @@ so, next step is to bypass the bios password protection or figure out the passwo
 they even went out of their way to implement their own password protection, instead of using the built-in Insyde H20 password protection.
 thus, clearing the CMOS doesn't reset the password, and the normal backdoor passwords for Insyde H20 don't work either.
 
-| ![the dreaded password prompt](./img/password_prompt.png) |
+| ![the dreaded password prompt](/assets/images/hw-hacking/watchguard/t70/password_prompt.png) |
 | --------------------------------------------------------- |
 | the dreaded password prompt                               |
 
@@ -93,7 +93,7 @@ so, instead of simply booting up ghidra, i wrote a crappy python script that att
 yeah, that was a bad idea.
 since each attempt takes ~0.5 seconds, i'd be sitting here for a bazillion years (estimate) until it finds the password.
 
-| ![Ain't nobody got time for that](../../../_cimg/reactions/aint_nobody_got_time_for_that.gif) |
+| ![Ain't nobody got time for that](/assets/images/common/reactions/aint_nobody_got_time_for_that.gif) |
 | --------------------------------------------------------------------------------------------- |
 | Ain't nobody got time for that                                                                |
 
@@ -113,14 +113,14 @@ UEFITool has a feature to extract the PE image of a uefi module. So let's load t
 after initial analysis by ghidra, searching for the "Input Password" string gives us a single match - with a single cross-reference to it.
 that cross reference brings us right to the function that prompts for - and checks - the password.
 
-| ![cross reference in ghidra](./img/ghidra_password_string_xref.png) |
+| ![cross reference in ghidra](/assets/images/hw-hacking/watchguard/t70/ghidra_password_string_xref.png) |
 | ------------------------------------------------------------------- |
 | cross reference for "Input Password" in ghidra                      |
 
 this function truely is a sight to behold.
 take a look for yourself:
 
-| ![the password check function](./img/password_function.png) | ![the developer who reviewed it](../../../_cimg/reactions/lgtm.gif) |
+| ![the password check function](/assets/images/hw-hacking/watchguard/t70/password_function.png) | ![the developer who reviewed it](/assets/images/common/reactions/lgtm.gif) |
 | ----------------------------------------------------------- | ------------------------------------------------------------------- |
 | the password check function                                 | the developer who reviewed it                                       |
 
