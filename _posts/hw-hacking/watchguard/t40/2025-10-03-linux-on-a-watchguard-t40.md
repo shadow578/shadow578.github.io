@@ -269,8 +269,7 @@ with this, the thermal sensors are detected and available in `/sys/class/thermal
 
 ### Networking I: Quad PHY (LAN1-4)
 
-remember the OpenWRT forum post from earlier, the one claiming the T40 is basically an LS1043A-RDB?
-well, at least when it comes to four of the five ethernet ports, this is true.
+this one's easy, as the T40 borrows the quad ethernet PHY from the LS1043A-RDB reference design.
 
 on both the RDB as well as the T40, four of the ethernet ports are handled by a Quad Ethernet PHY - in the case of the T40, a Marvell 88E1510.
 simply copying over the ethernet-related parts of the RDB's device tree over to our custom T40 device tree, replacing the mdio stuff done by neggles, makes these four ports work just fine.
@@ -280,8 +279,42 @@ four of five ethernet ports working, not bad.
 
 ### Networking II: Atheros PHY (WAN0)
 
-this i still haven't figured out yet.
-this part will be updated once i do.
+remember the OpenWRT forum post from earlier, the one claiming the T40 is basically just a LS1043A-RDB?
+well, when it comes to the WAN port, that's not true at all.
+
+the LS1043A-RDB uses an (kinda impressive tbh) Marvell AQR105 10GBASE-T PHY in place of the T40's Atheros AR8035.
+that means that, understandably, this part of the device tree doesn't match at all.
+different PHY, protocols, driver, everything.
+
+luckily, the AR8035 is supported by the linux kernel out of the box, and thanks to being a pretty common PHY, there's some other boards (even Layerscape ones) using it as well.
+one such board is the Kontron SMARC-sAL28.
+although it uses the LS1028a, that doesn't matter much since both share the same networking infrastructure.
+that's enough to give the clues that we need `phy-mode = "rgmii-id";`, as well as defining `eee-broken-1000t` and `eee-broken-100tx` to work around some [issues with Energy Efficient Ethernet](https://patchwork.kernel.org/project/linux-omap/patch/1489395794-6243-1-git-send-email-yegorslists@googlemail.com/).
+i initally also included `qca,clk-out-frequency` and related properties, but after closer inspection of the board it turns out that the clock output of the AR8035 is not connected to anything, so those properties are not needed.
+
+now just a single question remains: where to put this in the device tree?
+here, u-boot can actually help us out.
+running `mdio list` in u-boot shows us how the PHYs are connected from u-boot's POV:
+
+```shell
+=> mdio list
+FSL_MDIO0:
+4 - Generic PHY <--> FM1@DTSEC1
+5 - Generic PHY <--> FM1@DTSEC2
+6 - Generic PHY <--> FM1@DTSEC5
+7 - Generic PHY <--> FM1@DTSEC6
+FM_TGEC_MDIO:
+1 - AR8035 <--> FM1@DTSEC3
+```
+
+the AR8035 is connected to `FM1@DTSEC3`, which is the third ethernet port of the first FMan instance, or `ethernet@e4000` in the device tree.
+with a bit of guess-work (and consulting the stock T40 device tree), we can then figure out that the MDIO is `mdio@fd000` (`xmdio0`).
+
+adding all that, and we finally get a link working on the WAN port as well.
+
+as for if the link also runs at gigabit speeds, i have no idea.
+my current setup is so janky that i can only test with 100Mbit/s.
+that, however, works just fine.
 
 ---
 
