@@ -461,6 +461,22 @@ outputs of the leds are inverted, so a low level lights up the led.
 | $Q_C$      | Status    |
 | $Q_D$      | Mode      |
 
+# Controlling the Front Panel from U-Boot
+
+after doing all that, i noticed that the U-Boot of the T40 has a convenient `74lv164` command for controlling the shift register, and with that, the front panel leds.
+would've been nice to know that earlier, but oh well.
+
+command usage is simple:
+
+```shell
+=> 74lv164 low  #-> all leds on
+=> 74lv164 high #-> all leds off
+=> 74lv164 qa 0 #-> failover
+=> 74lv164 qb 0 #-> attn
+=> 74lv164 qc 0 #-> status
+=> 74lv164 qd 0 #-> mode
+```
+
 # Conclusion
 
 while i would've liked to fully reverse-engineer the `libwgpanel.so` library, but even if i found the pin mapping there, they wouldn't map to the current kernel's GPIO numbering anyway.
