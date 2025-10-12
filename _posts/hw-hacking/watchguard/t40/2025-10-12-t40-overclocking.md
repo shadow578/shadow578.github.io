@@ -72,7 +72,7 @@ take a look:
 <details>
 <summary>The Output is pretty long, so click here to expand it</summary>
 
-```
+<pre>
 -- System Info --
  Flash dump: ../rcwmod/spiflash.20251012.1000mhz.bin
  Initial QSPI endianess: QWORD_LITTLE_ENDIAN
@@ -196,7 +196,7 @@ COMMAND @ PBI_CRC: 0x06DE05A9 (current) == 0x06DE05A9 (calculated) -> PASS
  In-File CRC:    0x06DE05A9
  Calculated CRC: 0x06DE05A9
  CRC Valid?:     Yes
-```
+</pre>
 
 </details>
 
@@ -258,7 +258,7 @@ the results are really promising, showing almost linear scaling with the increas
 
 T40 @ 1.0GHz:
 
-```
+<pre>
 -- CPU Freq Config --
 Setting cpu: 0
 Setting cpu: 1
@@ -317,11 +317,11 @@ MARK RESULTS TABLE
 Mark Name                                        MultiCore SingleCore    Scaling
 ----------------------------------------------- ---------- ---------- ----------
 CoreMark-PRO                                       2177.64     686.01       3.17
-```
+</pre>
 
 T40 @ 1.6GHz:
 
-```
+<pre>
 -- CPU Freq Config --
 Setting cpu: 0
 Setting cpu: 1
@@ -378,7 +378,7 @@ MARK RESULTS TABLE
 Mark Name                                        MultiCore SingleCore    Scaling
 ----------------------------------------------- ---------- ---------- ----------
 CoreMark-PRO                                       3325.58    1096.57       3.03
-```
+</pre>
 
 </details>
 
