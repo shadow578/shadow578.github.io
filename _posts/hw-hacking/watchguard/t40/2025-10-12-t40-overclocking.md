@@ -200,7 +200,7 @@ COMMAND @ PBI_CRC: 0x06DE05A9 (current) == 0x06DE05A9 (calculated) -> PASS
 
 </details>
 
-# Changing The CPU Clock Speed
+# Going to 1.6GHz
 
 changing the CPU clock is fairly simple, once you have a way to actually create a valid PBI.
 the SoC runs on a single 100MHz reference clock (SYSCLK), and the CPU clock is derived from that using a PLL.
@@ -243,7 +243,38 @@ Board: LS1043AQDS, boot from vBank: 0
 
 success!
 
-## Benchmarking
+# But What If We... Went faster?
+
+technically, we haven't yet overclocked the SoC (1.6GHz is still supported, after all), so why not see how far we can push it?
+as you'll see, this doesn't go quite as smoothly.
+
+## 2.0 GHz
+
+well, nothing happens.
+doesn't even boot.
+
+## 1.8 GHz ?
+
+let's take it back a notch and try 1.8GHz.
+aand... it crashes.
+while u-boot does come up briefly, it quickly crashes with a "synchronous abort" error.
+
+## Maybe just 1.7 GHz
+
+ok, i really was hoping to reach 2 GHz here, but let's go back to 1.7GHz.
+
+this actually looked kinda promising at first, but nope, not stable.
+it does get to linux, and even runs the first coremark run, but then the kernel just panics.
+
+## What About RAM?
+
+sadly, the T40 uses pretty basic DDR4-2666 memory (Nanya NT5AD1024M8A3-HR), with incredible 19-19-19 timings - at 2666 MT/s.
+At the 3200 MT/s we're running, that decreases to 22-22-22 timings.
+ouch.
+no wonder Nanya doesn't even list it on their website anymore.
+that means there isn't really much room for improvement here, as a clock any higher than 1600 MHz will not work stable (i tried).
+
+# Benchmark Results
 
 to see how much of a difference this makes, i threw together a quick test using both [coremark](https://github.com/eembc/coremark) and [coremark-pro](https://github.com/eembc/coremark-pro).
 the results are really promising, showing almost linear scaling with the increased clock speed.
@@ -254,7 +285,32 @@ the results are really promising, showing almost linear scaling with the increas
 | T40 @ 1.6 GHz | 5268 (+61%) | 1097 (+60%)               | 3326 (+53%)              |
 
 <details>
-<summary>Click for raw benchmark results</summary>
+<summary>Click for benchmark details</summary>
+
+`benchmark.sh`:
+
+<pre>
+#!/bin/sh
+# standard benchmark script for T40
+# assumes to be run as root, in a directory where coremark and coremark-pro are cloned (and built) already
+set -e
+
+echo "-- CPU Freq Config --"
+cpupower frequency-set -g performance
+cpupower frequency-info
+
+echo "-- CoreMark --"
+cd coremark/
+./coremark.exe
+cd ..
+
+echo "-- CoreMark-Pro --"
+cd coremark-pro/
+make -s XCMD='-c4' certify-all
+cd ..
+
+echo "-- Done --"
+</pre>
 
 T40 @ 1.0GHz:
 
@@ -385,11 +441,5 @@ CoreMark-PRO                                       3325.58    1096.57       3.03
 # Conclusion
 
 this was really fun to do, and i'm super happy that it worked out.
-to quote a [famous Scientist](https://www.youtube.com/watch?v=Y6ljFaKRTrI) (?):
-
-> This was a triumph  
-> I'm making a note here, huge success  
-> It's hard to overstate  
-> My satisfaction
->
-> - GLaDOS
+although i'm a bit bummed that i couldn't really push the SoC any further than 1.6GHz, it's still a nice improvement.
+i really would've thought that there'd be more headroom, but oh well.
