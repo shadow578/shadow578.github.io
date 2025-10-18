@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Reverse-Engineering the Front Panel of a WatchGuard T40
-tags: reverse-engineering hardware-hacking ghidra
+tags: watchguard-t40 reverse-engineering hardware-hacking ghidra
 ---
 
 with linux mostly working on the T40, i decided to take a look at getting the front panel LEDs and buttons working.

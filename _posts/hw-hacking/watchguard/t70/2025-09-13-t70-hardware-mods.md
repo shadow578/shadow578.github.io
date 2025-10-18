@@ -1,7 +1,7 @@
 ---
 layout: post
 title: (Somewhat) Cursed WatchGuard T55 / T70 Hardware Mods
-tags: hardware-hacking
+tags: watchguard-t70 hardware-hacking
 ---
 
 with both of my watchguards fully jailbroken and behaving (mostly) like a normal linux box, but still waiting on some smaller details before actually utilizing them, i decided to poke around the hardware a bit more.

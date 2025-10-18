@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Overclocking the WatchGuard T40
-tags: hardware-hacking overclocking
+tags: watchguard-t40 hardware-hacking overclocking
 ---
 
 with linux mostly running (and me still procrastinating continuing further work on it), i figured i'd try and solve my last hang-up with the T40.

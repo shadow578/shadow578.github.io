@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Reverse-Engineering the Front Panel of a WatchGuard T70
-tags: reverse-engineering hardware-hacking ghidra
+tags: watchguard-t70 reverse-engineering hardware-hacking ghidra
 ---
 
 in the previous posts, we explored how to jailbreak a watchguard t70 and run linux on it.

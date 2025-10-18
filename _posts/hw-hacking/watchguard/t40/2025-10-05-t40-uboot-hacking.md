@@ -1,7 +1,7 @@
 ---
 layout: post
 title: cracking the T40's U-Boot
-tags: hardware-hacking ghidra
+tags: watchguard-t40 hardware-hacking ghidra
 ---
 
 with linux mostly running (and me procrastinating continuing work on the last ethernet PHY), there still was a little hangup for me:

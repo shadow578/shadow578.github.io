@@ -1,10 +1,10 @@
 ---
 layout: post
-title: I've set up a page to write about stuff
+title: Hello, World!
 tags: 
 ---
 
-hey there!
+hi there!
 
 if you're reading this, you've found my page.
 i've set this up to have a place to write about the random stuff i do, and maybe share some of my thoughts.

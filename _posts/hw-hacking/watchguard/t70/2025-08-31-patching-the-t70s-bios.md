@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Patching the BIOS of a WatchGuard T70 to Remove the Password
-tags: hardware-hacking ghidra
+tags: watchguard-t70 hardware-hacking ghidra
 ---
 
 in the last post, we explored how to run linux on a watchguard t70.

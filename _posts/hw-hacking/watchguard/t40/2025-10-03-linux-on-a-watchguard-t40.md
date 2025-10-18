@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Running Linux on a WatchGuard T40
-tags: hardware-hacking linux
+tags: watchguard-t40 hardware-hacking linux
 ---
 
 as if my obsession with watchguard firewalls wasn't bad enough already, i recently got my hands on a WatchGuard T40.
@@ -316,7 +316,27 @@ as for if the link also runs at gigabit speeds, i have no idea.
 my current setup is so janky that i can only test with 100Mbit/s.
 that, however, works just fine.
 
----
+### Overclocking the CPU
 
-note: this is a WIP post, documenting my process as i go along.
-see the [wip github repo](https://github.com/shadow578/linux/tree/v6.16_wg-t40) for the current state of things.
+the LS1043a SoC of the T40 is clocked at only 1.0GHz, but would be capable of running at up to 1.6GHz.
+sadly, the clock speed cannot be increased directly from linux - the clock scaling drive can only go down.
+to change the clock speed, the RCW (Reset Configuration Word) values in flash need to be modified.
+see [this follow-up post]({% post_url 2025-10-12-t40-overclocking %}) for my journey into that.
+
+### The Front-Panel
+
+the T40 has a "front" panel (technically, parts of it are at the back) consisting of the reset button, and four status LEDs (Failover, ATTN, Status, Mode).
+theres of course also the many leds for the ethernet link status, but they're controlled by the PHYs themselves and are not really interesting.
+to get the front-panel leds to work, we need to control the correct GPIOs.
+see [this follow-up post]({% post_url 2025-10-04-t40-frontpanel-reverse-engineering %}) for more information on that.
+
+## Conclusion and Next Steps
+
+linux now works pretty well on the T40.
+i still need to confirm that the PHYs can actually do gigabit speeds, but other than that, everything seems to be in order.
+
+as for next steps, i might try to do a proper port of OpenWRT to the T40.
+but that will probably take a bit, as i'm not very familiar with the OpenWRT build system.
+
+if you want to try it out yourself, you can find my linux fork with the custom kernel config and device tree [on github](https://github.com/shadow578/linux/tree/v6.16_wg-t40).
+for the rootfs, i recommend using the generic AARCH64 Arch Linux ARM image, as described above.
