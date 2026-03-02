@@ -111,3 +111,29 @@ i also added some fresh grease to the motor gearboxes, since they looked a bit d
 
 
 that's it, after reassembling the robot, it works perfectly again.
+
+
+## Notes
+
+since originally writing this post, the robot has been working perfectly.
+i also ended up getting my hands on a Roborock S7 with the exact same issue, and the same repair process applied as well.
+so it seems like this is a common issue with roborock vacuums using this kind of motor assembly / chassis.
+
+
+since the fault results in a very specific symptoms, it should be easy to remote-diagnose this issue by checking:
+- does the robot exit the charging dock correctly? -> want __yes__
+  - the initial movement out of the dock is done without using the wheel encoders, so if this works then the motors and drivers are fine.
+- does mapping work? -> want __yes__
+  - if this works then the LIDAR and mainboard are fine.
+- does the robot stop when bumpers are actuated? -> want __yes__
+  - if this works then the bumper sensors are fine.
+- does the robot fail to navigate autonomously (going in circles)? -> want __no__
+  - the main symptom described in this post. if __only__ this happens, then the issue is likely with the wheel encoder feedback.
+- does the robot have (about) 800-1000 hours of use? -> want __yes__
+  - this is the lifespan i've observed (sample-size of only 2!).
+
+if you have (or for the more adventurous, want to buy) a roborock vacuum with these symptoms, you can be fairly confident that the issue is a fairly simple repair.
+
+
+as a side note, a complete stop in movement in one of the wheels could also be caused by broken wires, in that case the robot would fail to exit the dock as well.
+however, that symptom could also be caused by a failed motor driver, so it would be less conclusive than the symptoms described above.
